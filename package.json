@@ -5,32 +5,16 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "build-native": "ng build && pkg . --out-path dist/",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
   },
+  "bin": "app.js",
   "private": true,
   "dependencies": {
-    "@angular/animations": "^6.0.3",
-    "@angular/common": "^6.0.3",
-    "@angular/compiler": "^6.0.3",
-    "@angular/core": "^6.0.3",
-    "@angular/forms": "^6.0.3",
-    "@angular/http": "^6.0.3",
-    "@angular/platform-browser": "^6.0.3",
-    "@angular/platform-browser-dynamic": "^6.0.3",
-    "@angular/router": "^6.0.3",
-    "@types/chart.js": "^2.7.25",
-    "bootstrap": "^4.1.1",
-    "chart.js": "^2.7.2",
-    "core-js": "^2.5.4",
-    "d3": "^5.5.0",
-    "d3-timeseries": "^1.0.1",
-    "lodash": "^4.17.10",
-    "moment-range": "^4.0.1",
-    "ng2-charts": "^1.6.0",
-    "rxjs": "^6.0.0",
-    "zone.js": "^0.8.26"
+    "express": "^4.16.3",
+    "opener": "^1.4.3"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.6.8",
@@ -51,6 +35,29 @@
     "protractor": "~5.3.0",
     "ts-node": "~5.0.1",
     "tslint": "~5.9.1",
-    "typescript": "~2.7.2"
+    "typescript": "~2.7.2",
+    "rxjs": "^6.0.0",
+    "zone.js": "^0.8.26",
+    "lodash": "^4.17.10",
+    "moment-range": "^4.0.1",
+    "ng2-charts": "^1.6.0",
+    "@angular/animations": "^6.0.3",
+    "@angular/common": "^6.0.3",
+    "@angular/compiler": "^6.0.3",
+    "@angular/core": "^6.0.3",
+    "@angular/forms": "^6.0.3",
+    "@angular/http": "^6.0.3",
+    "@angular/platform-browser": "^6.0.3",
+    "@angular/platform-browser-dynamic": "^6.0.3",
+    "@angular/router": "^6.0.3",
+    "@types/chart.js": "^2.7.25",
+    "bootstrap": "^4.1.1",
+    "chart.js": "^2.7.2",
+    "core-js": "^2.5.4",
+    "d3": "^5.5.0",
+    "d3-timeseries": "^1.0.1"
+  },
+  "pkg": {
+    "assets": ["dist/cashflow-visualization/**/*"]
   }
 }
