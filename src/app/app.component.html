@@ -1,0 +1,48 @@
+<div class="container mt-3">
+
+  <div class="row">
+    <div class="col">
+      <div class="visualization_layer">
+        <canvas #chart width="400" height="300"></canvas>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <div class="input-group-text">
+            <span class="mr-1">启用筛选</span>
+            <input type="checkbox" [(ngModel)]='date_range[0]' (ngModelChange)='onChange($event)'>
+          </div>
+          <span class="input-group-text">从</span>
+        </div>
+        <input type="text" class="form-control" placeholder="日期" [(ngModel)]='date_range[1]' (ngModelChange)='onChange($event)'>
+      </div>
+    </div>
+    <div class="col">
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text">到</span>
+        </div>
+        <input type="text" class="form-control" placeholder="日期" [(ngModel)]='date_range[2]' (ngModelChange)='onChange($event)'>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <app-transaction-list [transactions]="transactions" (transactionsChange)="onChange($event)"></app-transaction-list>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <div class="alert alert-dark" [ngClass]="{ 'active': saved }">
+        数据已保存到浏览器缓存
+      </div>
+      <div class="alert alert-danger" [ngClass]="{ 'active': error }">
+        数据有误 (时间跨度太大或输入格式错误)
+      </div>
+    </div>
+  </div>
+</div>

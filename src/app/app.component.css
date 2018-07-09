@@ -1,0 +1,13 @@
+.visualization_layer {
+  display: block;
+  width: 100%;
+}
+
+.alert {
+  transition: linear 0.2s;
+  opacity: 0;
+}
+
+.alert.active {
+  opacity: 1;
+}

@@ -1,0 +1,58 @@
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col"></th>
+      <th scope="col">名称</th>
+      <th scope="col">日期 (YYYY-MM-DD)</th>
+      <th scope="col">现金流 (万元)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr
+      *ngFor="let transaction of transactions; let first = first; let last = last; let index = index">
+      <td>
+        <div class="btn-group" role="group" aria-label="Basic example">
+          <button [disabled]="first" type="button" class="btn btn-sm btn-outline-dark" (click)="up(index)">↑</button>
+          <button [disabled]="last" type="button" class="btn btn-sm btn-outline-dark" (click)="down(index)">↓</button>
+          <button type="button" class="btn btn-sm btn-outline-dark" (click)="remove(index)">×</button>
+        </div>
+      </td>
+      <td><input class="form-control"
+        [(ngModel)]="transaction.name"
+        (ngModelChange)="onChange($event)"
+        placeholder="名称"></td>
+      <td><input class="form-control"
+        [(ngModel)]="transaction.date"
+        (ngModelChange)="onChange($event)"
+        placeholder="日期"></td>
+      <td><input
+        class="form-control"
+        [(ngModel)]="transaction.cashflow"
+        (ngModelChange)="onChange($event)"
+        [ngClass]="{ 'border-success': transaction.cashflow < 0, 'border-danger': transaction.cashflow > 0 }"
+        placeholder="现金流 (+/-)">
+      </td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class="text-right" [ngClass]="{ 'text-success': sum < 0, 'text-danger': sum > 0 }">
+        {{ getSum() }}
+      </td>
+    </tr>
+    <tr>
+      <td colspan="4">
+        <div class="my-1">
+          <button type="button" class="btn btn-outline-dark mx-1" (click)="addTransaction()">添加记录</button>
+          <button type="button" class="btn btn-outline-dark mx-1" (click)="clearTransaction()">清空记录</button>
+        </div>
+        <div class="my-1">
+          <button type="button" class="btn btn-outline-dark mx-1" (click)="exportTransaction()">导出</button>
+          <button type="button" class="btn btn-outline-dark mx-1" (click)="importTransaction()">导入</button>
+          <input type="file" #fileImport>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
