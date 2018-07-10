@@ -3,6 +3,8 @@ import { Transaction } from '../transaction';
 import * as moment from 'moment';
 import { fromEvent } from 'rxjs';
 import _ from 'lodash';
+import { Observable } from 'rxjs';
+import { distinctUntilChanged, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-transaction-list',
@@ -16,9 +18,11 @@ export class TransactionListComponent implements OnInit, OnChanges {
   @Output() transactionsChange = new EventEmitter();
 
   private today: string = moment(Date.now()).format('YYYY-MM-DD');
+  private _names: string[];
 
   onChange($event) {
-    this.transactionsChange.emit(this.transactions)
+    this.transactionsChange.emit(this.transactions);
+    this._names = _.map(this.transactions, 'name');
   }
 
   constructor() { }
@@ -99,6 +103,18 @@ export class TransactionListComponent implements OnInit, OnChanges {
 
   exportTransaction() {
     const data = JSON.stringify(this.transactions);
-    this.download('export.json', data);
+    this.download(`现金流数据导出 ${moment(Date.now()).format('YYMMDD HHMM')}.json`, data);
   }
+
+  sortByDate() {
+    const sorted = _.sortBy(this.transactions, transaction => moment(transaction.date).unix())
+    this.transactions.splice(0, this.transactions.length, ...sorted);
+  }
+
+  search = (text$: Observable<string>) =>
+    text$.pipe(
+      distinctUntilChanged(),
+      map(term => term.length < 2 ? []
+        : this._names.filter(v => v.indexOf(term) > -1).slice(0, 10))
+    );
 }

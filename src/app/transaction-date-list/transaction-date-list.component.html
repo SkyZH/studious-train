@@ -1,0 +1,30 @@
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">类别</th>
+      <th scope="col">名称</th>
+      <th scope="col">现金流 (万元)</th>
+    </tr>
+  </thead>
+  <tbody *ngFor="let group of getGroup(transactions)">
+    <tr>
+      <th colspan="2">
+        {{ group.date }}
+      </th>
+    </tr>
+    <tr *ngFor="let transaction of group.transactions">
+      <td>{{ transaction.type }}</td>
+      <td>{{ transaction.name }}</td>
+      <td class="text-right" [ngClass]="{ 'text-success': transaction.cashflow < 0, 'text-danger': transaction.cashflow > 0 }">
+        {{ transaction.cashflow }}
+      </td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td class="text-right" [ngClass]="{ 'text-success': group.sum < 0, 'text-danger': group.sum > 0 }">
+        {{ group.sum }}
+      </td>
+    </tr>
+  </tbody>
+</table>

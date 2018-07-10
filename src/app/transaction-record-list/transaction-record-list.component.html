@@ -1,0 +1,29 @@
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">类别</th>
+      <th scope="col">名称</th>
+      <th scope="col">日期 (YYYY-MM-DD)</th>
+      <th scope="col">现金流 (万元)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr
+      *ngFor="let transaction of transactions">
+      <td>{{ getType(transaction.name) }}</td>
+      <td>{{ getName(transaction.name) }}</td>
+      <td>{{ transaction.date }}</td>
+      <td class="text-right" [ngClass]="{ 'text-success': transaction.cashflow < 0, 'text-danger': transaction.cashflow > 0 }">
+        {{ transaction.cashflow }}
+      </td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class="text-right" [ngClass]="{ 'text-success': getSum() < 0, 'text-danger': getSum() > 0 }">
+        {{ getSum() }}
+      </td>
+    </tr>
+  </tbody>
+</table>

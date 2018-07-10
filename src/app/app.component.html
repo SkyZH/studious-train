@@ -1,35 +1,15 @@
 <div class="container mt-3">
-
-  <div class="row">
+  <div class="row my-3 d-print-none">
     <div class="col">
-      <div class="visualization_layer">
-        <canvas #chart width="400" height="300"></canvas>
-      </div>
+      <nav class="nav nav-pills nav-justified">
+        <a class="nav-item nav-link" [ngClass]="{ 'active': tab == 0 }" href="javascript:" (click)="tab = 0">编辑</a>
+        <a class="nav-item nav-link" [ngClass]="{ 'active': tab == 1 }" href="javascript:" (click)="tab = 1">概览</a>
+        <a class="nav-item nav-link" [ngClass]="{ 'active': tab == 2 }" href="javascript:" (click)="tab = 2">现金流</a>
+      </nav>
     </div>
   </div>
-  <div class="row">
-    <div class="col">
-      <div class="input-group mb-3">
-        <div class="input-group-prepend">
-          <div class="input-group-text">
-            <span class="mr-1">启用筛选</span>
-            <input type="checkbox" [(ngModel)]='date_range[0]' (ngModelChange)='onChange($event)'>
-          </div>
-          <span class="input-group-text">从</span>
-        </div>
-        <input type="text" class="form-control" placeholder="日期" [(ngModel)]='date_range[1]' (ngModelChange)='onChange($event)'>
-      </div>
-    </div>
-    <div class="col">
-      <div class="input-group mb-3">
-        <div class="input-group-prepend">
-          <span class="input-group-text">到</span>
-        </div>
-        <input type="text" class="form-control" placeholder="日期" [(ngModel)]='date_range[2]' (ngModelChange)='onChange($event)'>
-      </div>
-    </div>
-  </div>
-
+</div>
+<div class="container" *ngIf="tab == 0">
   <div class="row">
     <div class="col">
       <app-transaction-list [transactions]="transactions" (transactionsChange)="onChange($event)"></app-transaction-list>
@@ -43,6 +23,54 @@
       <div class="alert alert-danger" [ngClass]="{ 'active': error }">
         数据有误 (时间跨度太大或输入格式错误)
       </div>
+    </div>
+  </div>
+</div>
+
+<div class="container" *ngIf="tab == 1">
+  <div class="row my-3 d-print-none">
+    <div class="col">
+      <nav class="nav nav-pills nav-justified">
+        <a class="nav-item nav-link" [ngClass]="{ 'active': subtab == 0 }" href="javascript:" (click)="subtab = 0">顺序</a>
+        <a class="nav-item nav-link" [ngClass]="{ 'active': subtab == 1 }" href="javascript:" (click)="subtab = 1">项目</a>
+        <a class="nav-item nav-link" [ngClass]="{ 'active': subtab == 2 }" href="javascript:" (click)="subtab = 2">日历</a>
+      </nav>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <app-transaction-record-list [transactions]="transactions" *ngIf="subtab == 0"></app-transaction-record-list>
+      <app-transaction-group-list [transactions]="transactions" *ngIf="subtab == 1"></app-transaction-group-list>
+      <app-transaction-date-list [transactions]="transactions" *ngIf="subtab == 2"></app-transaction-date-list>
+    </div>
+  </div>
+  <div class="row my-3 d-print-none">
+    <div class="col">
+      <button type="button" class="btn btn-outline-primary btn-block" (click)="print()">打印或保存为 PDF</button>
+      <p class="small text-muted">若要保存为 PDF，请在弹出的对话框内选择“保存至 PDF”打印机。</p>
+    </div>
+  </div>
+</div>
+
+<div class="container" *ngIf="tab == 2">
+  <div class="row">
+    <div class="col">
+      <div class="visualization_layer">
+        <app-transaction-chart [transactions]="transactions"></app-transaction-chart>
+      </div>
+    </div>
+  </div>
+  <div class="row my-3 d-print-none">
+    <div class="col">
+      <button type="button" class="btn btn-outline-primary btn-block" (click)="print()">打印或保存为 PDF</button>
+      <p class="small text-muted">若要保存为 PDF，请在弹出的对话框内选择“保存至 PDF”打印机。图表支持滚轮缩放、拖拽平移。</p>
+    </div>
+  </div>
+</div>
+<div class="container">
+  <div class="row my-3 d-print-none">
+    <div class="col">
+      <span class="small text-muted">An open-source project by <a class="text-muted" href="https://github.com/SkyZH/studious-train">Chi</a></span>
     </div>
   </div>
 </div>

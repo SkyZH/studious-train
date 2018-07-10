@@ -2,7 +2,7 @@
   <thead>
     <tr>
       <th scope="col"></th>
-      <th scope="col">名称</th>
+      <th scope="col">名称 (类别|名称)</th>
       <th scope="col">日期 (YYYY-MM-DD)</th>
       <th scope="col">现金流 (万元)</th>
     </tr>
@@ -20,7 +20,8 @@
       <td><input class="form-control"
         [(ngModel)]="transaction.name"
         (ngModelChange)="onChange($event)"
-        placeholder="名称"></td>
+        placeholder="名称"
+        [ngbTypeahead]="search"></td>
       <td><input class="form-control"
         [(ngModel)]="transaction.date"
         (ngModelChange)="onChange($event)"
@@ -37,13 +38,14 @@
       <td></td>
       <td></td>
       <td></td>
-      <td class="text-right" [ngClass]="{ 'text-success': sum < 0, 'text-danger': sum > 0 }">
+      <td class="text-right" [ngClass]="{ 'text-success': getSum() < 0, 'text-danger': getSum() > 0 }">
         {{ getSum() }}
       </td>
     </tr>
     <tr>
       <td colspan="4">
         <div class="my-1">
+          <button type="button" class="btn btn-outline-dark mx-1" (click)="sortByDate()">按日期排序</button>
           <button type="button" class="btn btn-outline-dark mx-1" (click)="addTransaction()">添加记录</button>
           <button type="button" class="btn btn-outline-dark mx-1" (click)="clearTransaction()">清空记录</button>
         </div>
