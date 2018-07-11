@@ -30,7 +30,7 @@ export class TransactionGroupListComponent implements OnInit {
       .mapValues((transaction_group, key) => ({
         type: key,
         transactions: transaction_group,
-        sum: _.sumBy(transaction_group, 'cashflow')
+        sum: Math.round(_.sumBy(transaction_group, 'cashflow') / 100) * 100
       }))
       .values()
       .value()

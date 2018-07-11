@@ -34,9 +34,9 @@ export class TransactionListComponent implements OnInit, OnChanges {
   }
 
   getSum() {
-    return _.chain(this.transactions)
+    return Math.round(_.chain(this.transactions)
       .map(transaction => +transaction.cashflow)
-      .sum();
+      .sum() * 100) / 100;
   }
 
   addTransaction() {
@@ -115,6 +115,9 @@ export class TransactionListComponent implements OnInit, OnChanges {
     text$.pipe(
       distinctUntilChanged(),
       map(term => term.length < 2 ? []
-        : this._names.filter(v => v.indexOf(term) > -1).slice(0, 10))
+        : this._names
+          .filter(v => v.indexOf(term) > -1)
+          .filter(v => v != term)
+          .slice(0, 10))
     );
 }

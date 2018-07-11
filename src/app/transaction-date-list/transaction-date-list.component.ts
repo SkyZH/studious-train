@@ -30,9 +30,9 @@ export class TransactionDateListComponent implements OnInit {
         .sortBy(transaction => transaction.date_unix)
         .groupBy(transaction => transaction.date_string)
         .mapValues((transaction_group, key) => ({
-          date: moment(key).format('LLLL'),
+          date: moment(key).format('LL'),
           transactions: _.sortBy(transaction_group, transaction => transaction.cashflow > 0),
-          sum: _.sumBy(transaction_group, 'cashflow')
+          sum: Math.round(_.sumBy(transaction_group, 'cashflow') * 100) / 100
         }))
         .values()
         .value()

@@ -4,9 +4,13 @@ import * as Chart from 'chart.js';
 import _ from 'lodash';
 import { timer } from 'rxjs';
 import { Transaction } from './transaction';
-import * as _moment from 'moment';
-import * as momentRange from 'moment-range'
-const moment = momentRange.extendMoment(_moment);
+import * as moment from 'moment';
+import * as d3 from 'd3';
+import { environment } from '../environments/environment';
+
+const locale = require('d3-time-format/locale/zh-CN.json');
+moment.locale('zh_CN')
+d3.timeFormatDefaultLocale(locale);
 
 @Component({
   selector: 'app-root',
@@ -25,6 +29,8 @@ export class AppComponent implements OnInit {
   date_range: any = [false, '2018-01-01', '2018-01-01'];
   tab: number = 0;
   subtab: number = 0;
+
+  _VERSION = environment.VERSION
 
   constructor() {
   }

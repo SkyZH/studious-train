@@ -7,6 +7,10 @@ import * as d3 from 'd3';
 const margin = {top: 20, right: 40, bottom: 50, left: 40},
   width = 1280,
   height = 720;
+const formatDay = d3.timeFormat("%x %a"),
+    formatWeek = d3.timeFormat("%b %d"),
+    formatMonth = d3.timeFormat("%B"),
+    formatYear = d3.timeFormat("%Y");
 
 @Component({
   selector: 'app-transaction-chart',
@@ -20,6 +24,12 @@ export class TransactionChartComponent implements AfterContentInit {
   chartMask: any;
   chartContent: any;
   zoomed: any;
+
+  /* multiFormat(date) {
+    return (d3.timeMonth(date) < date ? (d3.timeWeek(date) < date ? formatDay : formatWeek)
+      : d3.timeYear(date) < date ? formatMonth
+      : formatYear)(date);
+  } */
 
   constructor() { }
 
@@ -71,11 +81,12 @@ export class TransactionChartComponent implements AfterContentInit {
     );
     const x = d3.scaleTime()
       .domain([
-        moment.min(_.map(_transactions, 'date')),
-        moment.max(_.map(_transactions, 'date'))
+        moment(moment.min(_.map(_transactions, 'date'))).subtract(1, 'day'),
+        moment(moment.max(_.map(_transactions, 'date'))).add(1, 'day')
       ])
       .range([0, width]);
-    const barWidth = Math.max(x(moment('2018-01-02')) - x(moment('2018-01-01')) - 5, 5);
+    const _barWidth = (x(moment('2018-01-02')) - x(moment('2018-01-01'))) * 0.9;
+    let barWidth = _barWidth;
     const y = d3.scaleLinear()
       .domain([
         _.minBy(_transactions, 'cum').cum,
@@ -161,7 +172,7 @@ export class TransactionChartComponent implements AfterContentInit {
       .enter()
       .append('g')
       .call(init_bar)
-    bars.selectAll('.rect')
+    const rects = bars.selectAll('.rect')
       .data(d => d)
       .enter()
         .append('rect')
@@ -185,6 +196,10 @@ export class TransactionChartComponent implements AfterContentInit {
         // gY.call(yAxis.scale(d3.event.transform.rescaleY(y)));
         // gX.attr('transform', `translate(0, ${transform.applyY(y(0))})`);
         bars.attr('transform', d => `translate(${transform.applyX(x(d[0].date))}, 0)`)
+        barWidth = transform.k * _barWidth;
+        rects
+          .attr('width', barWidth)
+          .attr('x', -barWidth / 2);
         this.zoomed = transform;
       });
     this.svg.call(zoom);

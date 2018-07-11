@@ -17,9 +17,9 @@ export class TransactionRecordListComponent implements OnInit {
   }
 
   getSum() {
-    return _.chain(this.transactions)
+    return Math.round(_.chain(this.transactions)
       .map(transaction => +transaction.cashflow)
-      .sum();
+      .sum() * 100) / 100;
   }
 
   getType(name: string) {
